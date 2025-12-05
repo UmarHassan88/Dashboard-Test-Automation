@@ -15,6 +15,7 @@ import {
   selectCity,
   selectlatlang,
   mandatoryfieldValidation,
+  mandatoryfieldsValidationCustom,
 } from "../../utils/helpers";
 
 async function addCommunity(page) {
@@ -36,7 +37,8 @@ async function addCommunity(page) {
   });
   await expect(addCommunityHeadAssert).toBeVisible();
   console.log("Invoking the Methods to Add Country, State and City ...");
-  await mandatoryfieldValidation(page); //Validating Mandatory Fields
+  const mandatoryField = page.getByText("Country *");
+  await mandatoryfieldsValidationCustom(page, mandatoryField); //Validating Mandatory Fields
   await selectCountry(page);
   await selectState(page);
   await selectCity(page);
@@ -44,6 +46,7 @@ async function addCommunity(page) {
     name: "Community Name",
     exact: true,
   });
+
   const commAR = page.getByRole("textbox", { name: "Community Name Arabic" });
   await randomStringGenerator(page, comm);
   await randomStringGenerator(page, commAR);
@@ -51,6 +54,16 @@ async function addCommunity(page) {
   await submitButton(page);
   const url = page.url();
   console.log("Current URL: ", url);
+
+  const inputValue = await comm.inputValue();
+  console.log("Community Name to be Added: ", inputValue);
+
+  //Verifying the Added Community
+  await page.waitForTimeout(3000);
+  await page.reload();
+  const verifyCommunity = page.getByRole("cell", { name: inputValue });
+  await expect(verifyCommunity).toBeVisible();
+  console.log("New Community is Verified Successfully!");
 }
 
 test("This test adds a Community", async ({ page }) => {

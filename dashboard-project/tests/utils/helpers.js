@@ -1,7 +1,7 @@
 import { test, expect } from "@playwright/test";
 
 export async function Login(page) {
-  await page.goto("http://192.168.1.193:3000/en/login");
+  await page.goto("http://192.168.1.203:3000/en/login");
   const emailInput = page.getByRole("textbox", { name: "admin@aqaryint.com" });
   const emailAssert = page.getByText("Email/User has to be filled.");
   const passwordInput = page.getByRole("textbox", {
@@ -33,7 +33,7 @@ export async function Login(page) {
   await passwordInput.fill(incorrectPassword);
   await submitButton.click();
   await expect(
-    page.getByRole("alert").filter({ hasText: "Something Went wrong!" })
+    page.getByRole("alert").filter({ hasText: "invalid login credentials" })
   ).toBeVisible();
 
   //Correct Credentials Scenario
@@ -199,7 +199,7 @@ export async function submitButton(page) {
 export async function selectCountry(page) {
   const select = page.getByRole("combobox", { name: "Select Country" });
   await select.click();
-  await countryGenerator(page, select, 3);
+  await countryGenerator(page, select, 2);
   await dropdownSelectOnly(page, select);
 }
 
@@ -256,4 +256,11 @@ export async function mandatoryfieldsValidationCustom(page, locator) {
   await submitButton(page); //Submitting Empty Form to check Validations
   //Validating the Required Fields by classes
   await expect(locator).toHaveClass(/Mui-error Mui-required/);
+}
+
+export async function dropdownSelectfromLast(page, locator) {
+  await page.waitForTimeout(1000);
+  await page.keyboard.press("ArrowUp");
+
+  await locator.press("Enter");
 }

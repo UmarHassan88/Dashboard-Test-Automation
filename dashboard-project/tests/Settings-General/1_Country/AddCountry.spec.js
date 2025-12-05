@@ -17,6 +17,12 @@ async function addCountry(page) {
   const countryName = page.getByRole("textbox", { name: "Enter Country name" });
   await expect(countryName).toBeVisible();
   await countryGenerator(page, countryName, 3);
+  const countryValue =
+    (await countryName.inputValue()) +
+    Math.random().toString(36).substring(2, 5);
+  await countryName.fill(countryValue);
+  const countryValueVerify = await countryName.inputValue();
+  console.log("Country Name to be Added: ", countryValueVerify);
 
   const elementValue = await countryName.inputValue();
   console.log("Input Value: ", elementValue);
@@ -48,19 +54,11 @@ async function addCountry(page) {
   await submitButton.click();
   console.log("Country is Added!");
 
-  const verifyCountry = page
-    .getByRole("cell", { name: "United Arab Emirates" })
-    .first();
-  await expect(await fetchElementValue(page, verifyCountry)).toEqual(
-    await fetchElementValue(page, countryName)
-  );
-}
-
-async function verifyAddedCountry(page) {
-  // const verifyCountry = page
-  //   .getByRole("cell", { name: "United Arab Emirates" })
-  //   .first();
-  // await expect(verifyCountry).toEqual(fetchElementValue(page, verifyCountry));
+  //Verifying the Added Country
+  await page.waitForTimeout(3000);
+  await page.reload();
+  const verifyCountry = page.getByRole("cell", { name: countryValueVerify });
+  await expect(verifyCountry).toBeVisible();
 }
 
 test("Adding a Country", async ({ page }) => {

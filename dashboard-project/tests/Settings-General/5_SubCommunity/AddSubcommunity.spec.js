@@ -16,6 +16,7 @@ import {
   selectCommunity,
   selectlatlang,
   mandatoryfieldValidation,
+  mandatoryfieldsValidationCustom,
 } from "../../utils/helpers";
 
 async function addSubcommunity(page) {
@@ -23,7 +24,7 @@ async function addSubcommunity(page) {
   await tillSettings(page);
   await tillGeneralSettings(page);
   await expect(page).toHaveURL(
-    "http://192.168.1.193:3000/en/dashboard/settings/general"
+    "http://192.168.1.203:3000/en/dashboard/settings/general"
   );
   console.log("Navigating to the Sub community Settings");
   const subCommunityOption = page.getByRole("button", {
@@ -33,8 +34,11 @@ async function addSubcommunity(page) {
   const addSubcommunity = page.getByRole("button", {
     name: "Add Sub Community",
   });
+
+  //Validating Mandatory Fields
   await addSubcommunity.click();
-  await mandatoryfieldValidation(page); //Validating Mandatory Fields
+  const countryMandatory = page.getByText("Country *");
+  await mandatoryfieldsValidationCustom(page, countryMandatory);
   const countrySelect = page.getByRole("combobox", { name: "Select Country" });
   await countrySelect.click();
   await countryGenerator(page, countrySelect, 1);
@@ -54,6 +58,15 @@ async function addSubcommunity(page) {
   await selectlatlang(page);
   await submitButton(page);
   console.log("Sub community is Added Successfully!");
+  const subCommunityinput = await subCommunityfield.inputValue();
+  console.log("Sub community to be Verified: ", subCommunityinput);
+  await page.waitForTimeout(3000);
+  await page.reload();
+  const verifySubCommunity = page.getByRole("cell", {
+    name: subCommunityinput,
+  });
+  await expect(verifySubCommunity).toBeVisible();
+  console.log("Added Sub community is Verified Successfully!");
 }
 
 test("This test adds a subcommunity", async ({ page }) => {

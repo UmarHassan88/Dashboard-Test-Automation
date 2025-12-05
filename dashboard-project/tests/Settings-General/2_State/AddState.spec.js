@@ -11,6 +11,7 @@ import {
   selectCountry,
   selectlatlang,
   mandatoryfieldValidation,
+  mandatoryfieldsValidationCustom,
 } from "../../utils/helpers";
 
 async function createState(page) {
@@ -28,15 +29,25 @@ async function createState(page) {
   console.log("Asserting the Add State pop up");
   const addStatePopUp = page.getByRole("heading", { name: "Add State" });
   await expect(addStatePopUp).toBeVisible();
-  await mandatoryfieldValidation(page); //Validating Mandatory Fields
+  const mandatoryField = page.getByText("Country *");
+  await mandatoryfieldsValidationCustom(page, mandatoryField); //Validating Mandatory Fields
   await selectCountry(page);
   const stateName = page.locator('input[name="state_name"]');
   await randomStringGenerator(page, stateName);
   const stateNameAR = page.locator('input[name="state_name_arabic"]');
   await randomStringGenerator(page, stateNameAR);
+  const statenameValueVerify = await stateName.inputValue();
+  console.log("State Name to be Verified: ", statenameValueVerify);
   //Generating Random Lat and long Values
   await selectlatlang(page);
   await submitButton(page);
+
+  //Verifying the Added State
+  await page.waitForTimeout(3000);
+  await page.reload();
+  const verifyState = page.getByRole("cell", { name: statenameValueVerify });
+  await expect(verifyState).toBeVisible();
+  console.log("New State is Verified Successfully!");
 }
 
 test("This test creates a new State", async ({ page }) => {
