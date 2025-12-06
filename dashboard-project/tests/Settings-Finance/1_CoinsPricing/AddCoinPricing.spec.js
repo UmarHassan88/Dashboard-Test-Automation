@@ -6,7 +6,7 @@ import {
   randomStringGenerator,
   dropdownSelectOnly,
   submitButton,
-  mandatoryfieldValidation,
+  mandatoryFields,
   mandatoryfieldsValidationCustom,
   dropdownSelect,
 } from "../../utils/helpers.js";
@@ -33,20 +33,22 @@ async function addCoinPricing(page) {
   await expect(createFormAssert).toBeVisible();
 
   //Asserting the mandatory fields
-  const subTypemandCheck = page.getByText("Subscription Type *");
-  await mandatoryfieldsValidationCustom(page, subTypemandCheck);
+  const subTypemandCheck = page.getByTestId("subscription_type"); //Based on Test IDs where available
+  await mandatoryFields(page, subTypemandCheck);
 
   const countrymandCheck = page.getByText("Country *");
   await mandatoryfieldsValidationCustom(page, countrymandCheck);
 
-  const companyIndustrymandCheck = page.getByText("Company Industry *");
-  await mandatoryfieldsValidationCustom(page, companyIndustrymandCheck);
+  const companyIndustrymandCheck = page.getByTestId("company_industry");
+  await mandatoryFields(page, companyIndustrymandCheck);
 
-  const currencymandCheck = page.getByText("Currency *");
-  await mandatoryfieldsValidationCustom(page, currencymandCheck);
+  const currencymandCheck = page.getByTestId("currency");
+  await mandatoryFields(page, currencymandCheck);
 
   const coinPricemandCheck = page.getByText("Price For Coin *");
   await mandatoryfieldsValidationCustom(page, coinPricemandCheck);
+
+  console.log("---Mandatory Field Validations Check Passed!---");
 
   //Filling the Form
   const accountTypeSelect = page.getByRole("combobox", {
@@ -76,7 +78,7 @@ async function addCoinPricing(page) {
   await dropdownSelect(page, countrySelect, 3);
   await companyIndustrySelect.click();
 
-  await dropdownSelect(page, companyIndustrySelect, 4);
+  await dropdownSelect(page, companyIndustrySelect, 5);
   await currencySelect.click();
   await dropdownSelectOnly(page, currencySelect);
   await randomIntGenerator(page, coinPriceLocator);

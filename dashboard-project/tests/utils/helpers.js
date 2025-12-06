@@ -199,7 +199,7 @@ export async function submitButton(page) {
 export async function selectCountry(page) {
   const select = page.getByRole("combobox", { name: "Select Country" });
   await select.click();
-  await countryGenerator(page, select, 2);
+  await countryGenerator(page, select, 1);
   await dropdownSelectOnly(page, select);
 }
 
@@ -263,4 +263,50 @@ export async function dropdownSelectfromLast(page, locator) {
   await page.keyboard.press("ArrowUp");
 
   await locator.press("Enter");
+}
+
+export async function tillLegal(page) {
+  const legalOption = page.getByRole("button", { name: "Legal", exact: true });
+  await expect(legalOption).toBeVisible();
+  await legalOption.click();
+  const licensesSection = page.getByRole("button", { name: "Licenses" });
+  await expect(licensesSection).toBeVisible();
+  const certificatesSection = page.getByRole("button", { name: "Certificate" });
+  await expect(certificatesSection).toBeVisible();
+  const legalConditionSection = page.getByRole("button", {
+    name: "Legal condition",
+  });
+  await expect(legalConditionSection).toBeVisible();
+}
+
+export async function mandatoryFields(page, locator) {
+  await submitButton(page); //Submitting Empty Form to check Validations
+  const childErrorClass = await locator.locator(".Mui-error.Mui-required");
+  await expect(childErrorClass).toBeVisible();
+}
+
+export async function tillSettingsAccounts(page) {
+  const accountOption = page.getByRole("button", {
+    name: "Account",
+    exact: true,
+  });
+  await expect(accountOption).toHaveText("Account");
+  await accountOption.click();
+  const companyIndustryOption = page.getByRole("button", {
+    name: "Company Industry",
+  });
+  await expect(companyIndustryOption).toBeVisible();
+
+  const companyTypeOption = page.getByRole("button", { name: "Company Type" });
+  await expect(companyTypeOption).toBeVisible();
+
+  const companyActivityOption = page.getByRole("button", {
+    name: "Company Activity",
+  });
+  await expect(companyActivityOption).toBeVisible();
+
+  const manageModulesOption = page.getByRole("button", {
+    name: "Manage Modules",
+  });
+  await expect(manageModulesOption).toBeVisible();
 }
