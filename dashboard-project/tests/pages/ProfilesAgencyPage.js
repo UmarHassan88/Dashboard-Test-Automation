@@ -12,6 +12,24 @@ export class ProfilesAgencyPage {
     this.createCollabAgency = page.getByRole("button", {
       name: "Create Collaboration Agency",
     });
+    this.agencyname = page
+      .getByTestId("name")
+      .getByRole("textbox", { name: "Enter collaboration Agency" });
+    this.agencynamear = page
+      .getByTestId("name_ar")
+      .getByRole("textbox", { name: "Enter collaboration agency" });
+    this.countryDropdown = page.getByRole("combobox", {
+      name: "Select Country",
+    });
+    this.stateDropdown = page.getByRole("combobox", { name: "Select State" });
+    this.logo = page
+      .getByTestId("logo")
+      .getByRole("button", { name: "Choose File" });
+    this.cover = page
+      .getByTestId("cover-image")
+      .getByRole("button", { name: "Choose File" });
+    this.websiteUrl = page.getByRole("textbox", { name: "Enter website URL" });
+    this.submitButton = page.getByRole("button", { name: "Submit" });
   }
   async navigateToProfilesAgency() {
     await expect(this.SideMenu).toBeVisible();
@@ -30,5 +48,24 @@ export class ProfilesAgencyPage {
   }
   async clickCreateCollabAgency() {
     await this.createCollabAgency.click();
+    await this.agencyname.fill("Automation Agency");
+    await this.agencynamear.fill("وكالة الأتمتة");
+    await this.countryDropdown.click();
+    await this.page.locator('ul[role="listbox"] >> li').nth(1).click();
+    await this.stateDropdown.click();
+    await this.page.locator('ul[role="listbox"] >> li').nth(1).click();
+    const filePathLogo = require("path").resolve(
+      __dirname,
+      "../assets/logo.png"
+    );
+    await this.logo.setInputFiles("./testdata/images/auto(2).jpg");
+    await this.cover.setInputFiles("./testdata/images/auto3.jpg");
+    await this.websiteUrl.fill("https://www.automationagency.com");
+    await this.submitButton.click();
+    await this.page
+      .getByRole("combobox", { name: "Select platform name" })
+      .click();
+    await this.page.locator('ul[role="listbox"] >> li').nth(1).click();
+    await this.submitButton.click();
   }
 }
