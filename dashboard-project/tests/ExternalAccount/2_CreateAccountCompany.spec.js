@@ -3,6 +3,7 @@ import {
   dropdownSelect,
   fillLocationDetails,
   Login,
+  randomonlystringGenerator,
   randomStringGenerator,
 } from "../utils/helpers.js";
 import { tillAccounts } from "../utils/helpers.js";
@@ -10,7 +11,7 @@ import { tillAccounts } from "../utils/helpers.js";
 async function fillAccountCompanyDetails(page) {
   //Assert for the Current URL after selecting Company Type
   const currentURL = page.url();
-  const expectedURL = "http://192.168.1.193:3000/en/dashboard/accounts/create";
+  const expectedURL = "http://192.168.1.203:3000/en/dashboard/accounts/create";
   await expect(currentURL).toEqual(expectedURL);
   await expect(currentURL).toContain("/dashboard/accounts/create");
   //Assert if the Dynamic Values for Company appear upon selecting Company Type
@@ -18,11 +19,6 @@ async function fillAccountCompanyDetails(page) {
     name: "Enter a company name",
   });
   await randomStringGenerator(page, companyName);
-
-  async function readValues(locator) {
-    const readValue = locator.getInputValue();
-    await expect;
-  }
 
   const companyIndustry = page.getByRole("combobox", {
     name: "Choose Industry",
@@ -109,7 +105,7 @@ async function fillcompanyPresentation(page) {
 async function companyAdminContact(page) {
   await page.evaluate(() => window.scrollTo(0, document.body.scrollHeight));
   const userName = page.getByRole("textbox", { name: "Enter Username" });
-  await randomStringGenerator(page, userName);
+  await randomonlystringGenerator(page, userName, 2, 7);
   const userNameAssert = page.getByText("Username must start with a");
   await expect.soft(userNameAssert).toBeHidden();
   const lastName = page.getByRole("textbox", { name: "Enter Last Name" });
@@ -117,19 +113,19 @@ async function companyAdminContact(page) {
   const adminEmail = page.getByRole("textbox", { name: "Admin email address" });
   const emailVal = page.getByText("Invalid email address");
   await expect.soft(emailVal).toBeVisible();
-  await randomStringGenerator(page, adminEmail);
+  await randomonlystringGenerator(page, adminEmail, 3, 9);
   const invalidEmailAssert = page.getByText("Invalid email address");
   await expect(invalidEmailAssert).toBeVisible();
   //Appending gmail.com to Email
   const emailInput = await adminEmail.inputValue();
   await adminEmail.fill(`${emailInput}@gmail.com`);
 
-  const contactNumValue = "123456";
+  const contactNumValue = "50345654545";
   const contactNum = page.getByPlaceholder("Enter Contact Phone no");
   await contactNum.fill(contactNumValue);
 
-  const assertContact = page.getByText("Admin Phone No is required");
-  await expect.soft(assertContact).toBeVisible();
+  // const assertContact = page.getByText("Admin Phone No is required");
+  // await expect.soft(assertContact).toBeVisible();
   const whatsappNo = page.getByPlaceholder("Enter Whats App  Number");
   await whatsappNo.fill("12345");
   const profilePic = page

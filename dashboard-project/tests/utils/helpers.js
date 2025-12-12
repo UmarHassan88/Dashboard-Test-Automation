@@ -90,27 +90,22 @@ export async function fillLocationDetails(page) {
 
   //await dropdownSelect(page, state, 2);
   await city.click();
-  const cityValue = page.getByRole("option", { name: "Abu Dhabi City" });
-  await expect(cityValue).toBeVisible();
-  await cityValue.click();
+  await dropdownSelect(page, city, 1);
   await community.click();
-  const communityValue = page.getByRole("option", { name: "Airport Road" });
-  await expect(communityValue).toBeVisible();
-  await communityValue.click();
+  await dropdownSelectOnly(page, community);
   await subCommunity.click();
-  const subCommunityValue = page.getByRole("option", {
-    name: "Al Manhal Tower",
-  });
-  await subCommunityValue.click();
+  await dropdownSelectOnly(page, subCommunity);
   await pinLocation.click();
-  const mapTab = page.getByRole("menuitemradio", { name: "Show street map" });
+  const mapTab = await page.getByRole("menuitemradio", {
+    name: "Show street map",
+  });
   await expect(mapTab).toBeVisible();
   await page.mouse.move(200, 200);
   await page.waitForTimeout(2000);
   await page.mouse.down();
-  await console.log("Mouse Down Clicked");
+  console.log("Mouse Down Clicked");
   await page.mouse.up();
-  await console.log("Mouse Up Clicked");
+  console.log("Mouse Up Clicked");
 
   //page.waitForTimeout(2000);
   const closeMap = page.getByRole("button", { name: "close" });
@@ -143,8 +138,18 @@ export async function tillAccounts(page) {
   await accountTypeSelect.click();
 }
 
+export async function randomonlystringGenerator(page, locator, start, end) {
+  const chars = "abcdefghijklmnopqrstuvwxyz";
+  let result = "";
+  for (let i = start; i < end; i++) {
+    // const randomIndex = Math.floor(Math.random() * chars.length);
+    result += chars.charAt(i);
+  }
+  await locator.fill(result);
+}
+
 export async function randomStringGenerator(page, locator) {
-  const randomValues = Math.random().toString(36).substring(2, 5);
+  const randomValues = Math.random().toString(36).substring(2, 4);
   await locator.fill(`TestCompany${randomValues}`);
 }
 
@@ -309,4 +314,21 @@ export async function tillSettingsAccounts(page) {
     name: "Manage Modules",
   });
   await expect(manageModulesOption).toBeVisible();
+}
+
+export async function tillListing(page) {
+  await Login(page);
+  await tillSettings(page);
+  const tillListing = page.getByRole("button", { name: "Listing" });
+  await expect(tillListing).toBeVisible();
+  await tillListing.click();
+}
+
+export async function tillFacilities(page) {
+  const setFacilitiesSection = page.getByRole("button", {
+    name: "Set Facilities",
+  });
+  await expect(setFacilitiesSection).toBeVisible();
+  await setFacilitiesSection.click();
+  console.log("Landed on the Manage Facilities Page");
 }

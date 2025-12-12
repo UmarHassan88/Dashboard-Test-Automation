@@ -1,5 +1,11 @@
 import { test, expect } from "@playwright/test";
-import { Login, tillAccounts } from "../utils/helpers.js";
+import {
+  dropdownSelectOnly,
+  dropdownSelect,
+  Login,
+  tillAccounts,
+  submitButton,
+} from "../utils/helpers.js";
 
 async function createIndividualAccount(page) {
   await tillAccounts(page);
@@ -36,21 +42,15 @@ async function fillServiceInformation(page) {
   await serviceExpertiseOptions.click();
   const countrySelect = page.getByRole("combobox", { name: "Select Country" });
   await countrySelect.click();
-  const countryUAE = page.getByRole("option", { name: "United Arab Emirates" });
-  await expect(countryUAE).toBeVisible();
-  await countryUAE.click();
+  await dropdownSelectOnly(page, countrySelect);
   const serviceArea = page.getByRole("combobox", {
     name: "Select Service Area",
   });
   await serviceArea.click();
-  const serviceAreaOption = page.getByRole("option", { name: "Dubai" });
-  await expect(serviceAreaOption).toBeVisible();
-  await serviceAreaOption.click();
+  await dropdownSelect(page, serviceArea, 2);
   const languages = page.getByRole("combobox", { name: "Select Languages" });
   await languages.click();
-  const languageSelect = page.getByRole("option", { name: "Arabic" });
-  await expect(languageSelect).toBeVisible();
-  await languageSelect.click();
+  await dropdownSelect(page, languages, 2);
   const experienceSince = page.getByRole("textbox", { name: "MM/DD/YYYY" });
   await experienceSince.fill("01/01/2015");
 }
@@ -116,16 +116,10 @@ async function fillBankDetails(page) {
     name: "Please a Country",
   });
   await countrySelect.click();
-  const countryUAE = page.getByRole("option", { name: "United Arab Emirates" });
-  await expect(countryUAE).toBeVisible();
-  await countryUAE.click();
+  await dropdownSelectOnly(page, countrySelect);
   const currencies = page.getByRole("combobox", { name: "Please a Currency" });
   await currencies.click();
-  const currencyDirham = page.getByRole("option", {
-    name: "UAE Dirham",
-  });
-  await expect(currencyDirham).toBeVisible();
-  await currencyDirham.click();
+  await dropdownSelect(page, currencies, 3);
 }
 
 test("Testing the Individual Account Creation", async ({ page }) => {
@@ -140,7 +134,6 @@ test("Testing the Individual Account Creation", async ({ page }) => {
   await page.waitForTimeout(1000);
   //Filling the form again to submit
   await createIndividualAccount(page);*/
-  const submitButton = page.getByRole("button", { name: "submit" });
-  await expect(submitButton).toBeVisible();
-  await submitButton.click();
+  await submitButton(page);
+  console.log("Added an Individual Account Successfully!");
 });
