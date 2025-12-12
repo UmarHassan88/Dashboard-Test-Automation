@@ -66,15 +66,27 @@ export class AqaryIntPage {
     ).toBeVisible();
   }
   async createUser() {
+    const randomNum = Math.floor(Math.random() * 1000);
     await this.createuserButton.click();
     // await expect(page).toHaveURL(
     //   "http://192.168.1.203:3000/en/dashboard/users/manage_users/create"
     // );
-    await this.page.getByRole("combobox", { name: "Search Role" });
+    await this.page.getByRole("combobox", { name: "Search Role" }).click();
     await this.page
       .locator('ul[role="listbox"] >> li')
       .nth(Math.floor(Math.random() * 3))
       .click();
     await this.page.getByRole("button", { name: "submit" }).click();
+    await this.userName.fill("autoUser1" + randomNum);
+    await this.fname.fill("Auto");
+    await this.lname.fill("User");
+    await this.email.fill("testemail" + randomNum + "@gmail.com");
+    await this.phoneNumber.fill("1234567890");
+    await this.profileImageInput.setInputFiles("./testdata/images/auto(2).jpg");
+    await this.page.getByRole("button", { name: "submit" }).click();
+
+    await expect(
+      this.page.getByText("User created successfully")
+    ).toBeVisible();
   }
 }
