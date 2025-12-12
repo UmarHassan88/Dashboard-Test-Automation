@@ -100,12 +100,18 @@ export async function fillLocationDetails(page) {
     name: "Show street map",
   });
   await expect(mapTab).toBeVisible();
-  await page.mouse.move(200, 200);
+  // await page.mouse.move(200, 200);
   await page.waitForTimeout(2000);
-  await page.mouse.down();
-  console.log("Mouse Down Clicked");
-  await page.mouse.up();
-  console.log("Mouse Up Clicked");
+  await expect(mapTab).toBeVisible();
+
+  // Wait for the map canvas
+  const map = page.locator(".gm-style"); // Replace with your map element
+  await map.waitFor({ state: "visible" });
+
+  const box = await map.boundingBox();
+  if (!box) throw new Error("Map bounding box not found");
+
+  await page.mouse.click(box.x + box.width / 2, box.y + box.height / 2);
 
   //page.waitForTimeout(2000);
   const closeMap = page.getByRole("button", { name: "close" });

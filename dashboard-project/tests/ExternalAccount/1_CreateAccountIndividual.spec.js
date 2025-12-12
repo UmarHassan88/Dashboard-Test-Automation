@@ -128,12 +128,6 @@ test("Testing the Individual Account Creation", async ({ page }) => {
   await page.evaluate(() => {
     window.scrollTo(0, document.body.scrollHeight);
   });
-  /*const clearButton = page.getByRole("button", { name: "clear", exact: true });
-  await expect(clearButton).toBeVisible();
-  await clearButton.click();
-  await page.waitForTimeout(1000);
-  //Filling the form again to submit
-  await createIndividualAccount(page);*/
   await submitButton(page);
   console.log("Added an Individual Account Successfully!");
 });

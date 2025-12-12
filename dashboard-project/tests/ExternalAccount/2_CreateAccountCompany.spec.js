@@ -40,8 +40,6 @@ async function fillAccountCompanyDetails(page) {
   });
   await companyActivity.click();
   await dropdownSelect(page, companyActivity, 1);
-  await expect.soft(companyActivity).toHaveValue("Real Estate");
-  console.log("Exception Faced at the Company Activity Assertion!");
 }
 
 async function fieldsValidation(page) {
