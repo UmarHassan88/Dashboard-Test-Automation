@@ -17,4 +17,10 @@ test.describe("Aqary INT Users Management", () => {
     await expect(aqaryIntPage.subMenuDepartments).toBeVisible();
     await expect(aqaryIntPage.subMenuUsers).toBeVisible();
   });
+  test("Create Role ", async ({ page }) => {
+    const aqaryIntPage = new AqaryIntPage(page);
+    await aqaryIntPage.navigateToAqaryIntUsers();
+    await aqaryIntPage.navigateToDepartmentsAndRoles();
+    await aqaryIntPage.clickCreateRole();
+  });
 });

@@ -9,6 +9,9 @@ export class AqaryIntPage {
     });
     this.subMenuUsers = page.getByRole("button", { name: "Manage Users" });
     this.createRole = page.getByRole("button", { name: "Create Role" });
+    this.DepartmentDropdown = page.getByRole("combobox", {
+      name: "Search Department",
+    });
   }
   async navigateToAqaryIntUsers() {
     await this.Sidemenu.click();
@@ -20,6 +23,8 @@ export class AqaryIntPage {
     await this.subMenuUsers.click();
   }
   async clickCreateRole() {
+    const randomIndex = Math.floor(Math.random() * 4);
     await this.createRole.click();
+    await this.DepartmentDropdown.click();
   }
 }
