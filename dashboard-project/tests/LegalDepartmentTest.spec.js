@@ -9,7 +9,7 @@ test.describe("Legal Department Tests", () => {
     await loginPage.assertLoginSuccess();
   });
 
-  test("Legal Department Placeholder Test", async ({ page }) => {
+  test("Legal Department Navigation Test", async ({ page }) => {
     const legalDepartmentPage = new LegalDepartmentPage(page);
     await legalDepartmentPage.navigateToLegalDepartment();
     await legalDepartmentPage.navigateToCompanyVerifications();
