@@ -4,7 +4,6 @@ import { LoginPage } from "./pages/LoginPage";
 
 test.describe("Aqary INT Users Management", () => {
   test.beforeEach(async ({ page }) => {
-    await page.goto("http://192.168.1.203:3000/en"); // Replace with actual URL
     const loginPage = new LoginPage(page);
     await loginPage.goto();
     await loginPage.login("superadmin", "HereWeGo@2025");
