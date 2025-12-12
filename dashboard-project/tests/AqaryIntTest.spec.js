@@ -22,6 +22,12 @@ test.describe("Aqary INT Users Management", () => {
     await aqaryIntPage.navigateToAqaryIntUsers();
     await aqaryIntPage.navigateToDepartmentsAndRoles();
     await aqaryIntPage.clickCreateRole();
-    await expect(page.getByText("Role created successfully")).toBeVisible();
+    await aqaryIntPage.assertRoleCreationSuccess();
+  });
+  test("Create User ", async ({ page }) => {
+    const aqaryIntPage = new AqaryIntPage(page);
+    await aqaryIntPage.navigateToAqaryIntUsers();
+    await aqaryIntPage.navigateToManageUsers();
+    await aqaryIntPage.createUser();
   });
 });
