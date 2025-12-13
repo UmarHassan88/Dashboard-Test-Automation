@@ -51,21 +51,36 @@ export class ProfilesAgencyPage {
     await this.agencyname.fill("Automation Agency");
     await this.agencynamear.fill("وكالة الأتمتة");
     await this.countryDropdown.click();
-    await this.page.locator('ul[role="listbox"] >> li').nth(1).click();
+    const randomIndex = Math.floor(Math.random() * 2);
+    const randomState = Math.floor(Math.random() * 7);
+    await this.page
+      .locator('ul[role="listbox"] >> li')
+      .nth(randomIndex)
+      .click();
     await this.stateDropdown.click();
-    await this.page.locator('ul[role="listbox"] >> li').nth(1).click();
+    await this.page
+      .locator('ul[role="listbox"] >> li')
+      .nth(randomState)
+      .click();
     const filePathLogo = require("path").resolve(
       __dirname,
       "../assets/logo.png"
     );
     await this.logo.setInputFiles("./testdata/images/auto(2).jpg");
     await this.cover.setInputFiles("./testdata/images/auto3.jpg");
+    await this.pagegetByRole("combobox", { name: "Select platform name" });
+    const randomPlatyform = Math.floor(Math.random() * 6);
+    await this.page
+      .locator('ul[role="listbox"] >> li')
+      .nth(randomPlatyform)
+      .click();
+
     await this.websiteUrl.fill("https://www.automationagency.com");
     await this.submitButton.click();
-    await this.page
-      .getByRole("combobox", { name: "Select platform name" })
-      .click();
-    await this.page.locator('ul[role="listbox"] >> li').nth(1).click();
-    await this.submitButton.click();
+  }
+  async validateAgencyCreation() {
+    await expect(
+      this.page.getByText("Collaboration Agency created successfully")
+    ).toBeVisible();
   }
 }
