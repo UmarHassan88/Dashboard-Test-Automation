@@ -68,7 +68,9 @@ export class ProfilesAgencyPage {
     );
     await this.logo.setInputFiles("./testdata/images/auto(2).jpg");
     await this.cover.setInputFiles("./testdata/images/auto3.jpg");
-    await this.pagegetByRole("combobox", { name: "Select platform name" });
+    await this.page
+      .getByRole("combobox", { name: "Select platform name" })
+      .click();
     const randomPlatyform = Math.floor(Math.random() * 6);
     await this.page
       .locator('ul[role="listbox"] >> li')

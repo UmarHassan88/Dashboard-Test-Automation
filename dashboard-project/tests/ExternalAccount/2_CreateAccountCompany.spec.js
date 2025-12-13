@@ -3,46 +3,16 @@ import {
   dropdownSelect,
   fillLocationDetails,
   Login,
+  randomIntGenerator,
   randomonlystringGenerator,
   randomStringGenerator,
+  submitButton,
+  uploadFile,
 } from "../utils/helpers.js";
 import { tillAccounts } from "../utils/helpers.js";
 
-async function fillAccountCompanyDetails(page) {
-  //Assert for the Current URL after selecting Company Type
-  const currentURL = page.url();
-  const expectedURL = "http://192.168.1.203:3000/en/dashboard/accounts/create";
-  await expect(currentURL).toEqual(expectedURL);
-  await expect(currentURL).toContain("/dashboard/accounts/create");
-  //Assert if the Dynamic Values for Company appear upon selecting Company Type
-  const companyName = page.getByRole("textbox", {
-    name: "Enter a company name",
-  });
-  await randomStringGenerator(page, companyName);
-
-  const companyIndustry = page.getByRole("combobox", {
-    name: "Choose Industry",
-  });
-  await companyIndustry.click();
-  const industryOption = page.getByRole("option", { name: "Marko" });
-  await expect(industryOption).toBeVisible();
-  //Invoking the Drop down functions
-  await dropdownSelect(page, companyIndustry, 1);
-  await expect(companyIndustry).toHaveValue("Real Estate");
-  const companyType = page.getByRole("combobox", {
-    name: "Please Select Company Type",
-  });
-  await companyType.click();
-  await dropdownSelect(page, companyType, 2);
-  await expect(companyType).toHaveValue("Broker Company");
-  const companyActivity = page.getByRole("combobox", {
-    name: "Choose a company activity",
-  });
-  await companyActivity.click();
-  await dropdownSelect(page, companyActivity, 1);
-}
-
 async function fieldsValidation(page) {
+  console.log("Applying the Fields Validation...");
   await tillAccounts(page);
   const companyOption = page.getByRole("option", { name: "Company" });
   await expect(companyOption).toBeVisible();
@@ -76,37 +46,68 @@ async function fieldsValidation(page) {
   await usernameField.fill("abc");
   await page.getByRole("button", { name: "Submit" }).click();
   // await expect(errorMessage).toHaveCount(0); // error should disappear
-}
 
-async function fillAccountCompanyLocationInformation(page) {
+  //Assert for the Current URL after selecting Company Type
+  console.log("Filling the Account Company Details...");
+
+  const currentURL = page.url();
+  const expectedURL = "http://192.168.1.203:3000/en/dashboard/accounts/create";
+  await expect(currentURL).toEqual(expectedURL);
+  await expect(currentURL).toContain("/dashboard/accounts/create");
+  //Assert if the Dynamic Values for Company appear upon selecting Company Type
+  const companyName = page.getByRole("textbox", {
+    name: "Enter a company name",
+  });
+  await randomStringGenerator(page, companyName);
+  const companynameInput = await companyName.inputValue();
+
+  const companyIndustry = page.getByRole("combobox", {
+    name: "Choose Industry",
+  });
+  await companyIndustry.click();
+  const industryOption = page.getByRole("option", { name: "Marko" });
+  await expect(industryOption).toBeVisible();
+  //Invoking the Drop down functions
+  await dropdownSelect(page, companyIndustry, 1);
+  await expect(companyIndustry).toHaveValue("Real Estate");
+  const companyType = page.getByRole("combobox", {
+    name: "Please Select Company Type",
+  });
+  await companyType.click();
+  await dropdownSelect(page, companyType, 2);
+  await expect(companyType).toHaveValue("Broker Company");
+  const companyActivity = page.getByRole("combobox", {
+    name: "Choose a company activity",
+  });
+  await companyActivity.click();
+  await dropdownSelect(page, companyActivity, 1);
   await fillLocationDetails(page);
-}
 
-async function fillcompanyPresentation(page) {
-  const emailAddress = page.getByRole("textbox", {
+  console.log("Filling the Company Presentation Details...");
+
+  await page.waitForTimeout(2000);
+  const emailAddress = await page.getByRole("textbox", {
     name: "Email address",
     exact: true,
   });
   const randomInt = Math.random(1, 10) * 10;
   const emailValue = "umarhassanzia88+test" + randomInt + "@gmail.com";
   await emailAddress.fill(emailValue);
-  const contactNo = page.getByPlaceholder("Enter Phone No");
-  await contactNo.fill(randomInt.toString().substring(1, 10));
+  const contactNo = await page.getByPlaceholder("Enter Phone No");
+  await contactNo.fill("05067878654");
   const logoAttach = page
     .getByTestId("logo")
     .getByRole("button", { name: "Choose File" });
-  await logoAttach.setInputFiles("C:\\Users\\umar\\Downloads\\scannerr.png");
-  const confirmCrop = page.getByRole("button", { name: "Confirm" });
-  await confirmCrop.click();
-}
+  await uploadFile(page, logoAttach);
 
-async function companyAdminContact(page) {
+  console.log("Filling the Company Admin Contact Details...");
+
   await page.evaluate(() => window.scrollTo(0, document.body.scrollHeight));
   const userName = page.getByRole("textbox", { name: "Enter Username" });
   await randomonlystringGenerator(page, userName, 2, 7);
   const userNameAssert = page.getByText("Username must start with a");
   await expect.soft(userNameAssert).toBeHidden();
-  const lastName = page.getByRole("textbox", { name: "Enter Last Name" });
+  const lastName = await page.getByRole("textbox", { name: "Enter Last Name" });
   await lastName.fill("Temp");
   const adminEmail = page.getByRole("textbox", { name: "Admin email address" });
   const emailVal = page.getByText("Invalid email address");
@@ -122,22 +123,12 @@ async function companyAdminContact(page) {
   const contactNum = page.getByPlaceholder("Enter Contact Phone no");
   await contactNum.fill(contactNumValue);
 
-  // const assertContact = page.getByText("Admin Phone No is required");
-  // await expect.soft(assertContact).toBeVisible();
   const whatsappNo = page.getByPlaceholder("Enter Whats App  Number");
   await whatsappNo.fill("12345");
-  const profilePic = page
-    .getByTestId("profile-picture")
-    .getByRole("button", { name: "Choose File" });
-  await profilePic.setInputFiles("C:\\Users\\umar\\Downloads\\scannerr.png");
-  const submitButton = page.getByRole("button", { name: "submit" });
-  await submitButton.click();
+  await submitButton(page);
+  console.log("Added a Company!");
 }
 
 test("Testing the Add Company Account Type Section", async ({ page }) => {
   await fieldsValidation(page);
-  await fillAccountCompanyDetails(page);
-  await fillAccountCompanyLocationInformation(page);
-  await fillcompanyPresentation(page);
-  await companyAdminContact(page);
 });

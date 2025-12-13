@@ -101,7 +101,7 @@ export async function fillLocationDetails(page) {
   });
   await expect(mapTab).toBeVisible();
   // await page.mouse.move(200, 200);
-  await page.waitForTimeout(2000);
+  await page.waitForTimeout(3000);
   await expect(mapTab).toBeVisible();
 
   // Wait for the map canvas
