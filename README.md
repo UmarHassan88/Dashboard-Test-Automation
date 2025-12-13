@@ -72,12 +72,14 @@ Before running the tests, ensure you have the following installed:
 ## 📦 Installation
 
 1. **Clone the repository** (if applicable):
+
    ```bash
    git clone <repository-url>
    cd Dashboard-Automation-Using-Playwright
    ```
 
 2. **Install dependencies**:
+
    ```bash
    npm install
    cd dashboard-project
@@ -165,25 +167,30 @@ npx playwright test --grep "Login"
 ## 📚 Test Suites
 
 ### Authentication
+
 - `LoginPage.spec.js` - Login validation (success and invalid credentials)
 
 ### External Accounts
+
 - `ExternalAccount/1_CreateAccountIndividual.spec.js` - Create individual account
 - `ExternalAccount/2_CreateAccountCompany.spec.js` - Create company account
 
 ### Settings Module
 
 #### Settings - Account
+
 - Account Industry
 - Account Type
 - Account Activity
 - Manage Modules
 
 #### Settings - Finance
+
 - Coins Pricing
 - Tax Management
 
 #### Settings - General
+
 - Country Management
 - State Management
 - City Management
@@ -196,11 +203,13 @@ npx playwright test --grep "Login"
 - Media Category
 
 #### Settings - Legal
+
 - Licenses
 - Certificates
 - Legal Conditions
 
 #### Settings - Listing
+
 - Type Management
 - Facts Management
 - Facilities Management
@@ -209,6 +218,7 @@ npx playwright test --grep "Login"
 - Type Configs
 
 ### Other Modules
+
 - `ProjectPage.spec.js` - Project management tests
 - `ImportProjectTest.spec.js` - Project import functionality
 - `ReportTest.spec.js` - Report generation tests
@@ -221,6 +231,7 @@ npx playwright test --grep "Login"
 The project follows the Page Object Model (POM) pattern for better code organization and maintainability. Each page has its own class in the `tests/pages/` directory.
 
 Example usage:
+
 ```javascript
 import { LoginPage } from "./pages/LoginPage.js";
 
@@ -239,6 +250,7 @@ npx playwright show-report
 ```
 
 The report includes:
+
 - Test execution summary
 - Pass/fail status
 - Screenshots on failure
@@ -254,6 +266,7 @@ The `tests/utils/helpers.js` file contains helper functions that can be reused a
 ## 📝 Test Data
 
 Test data is stored in the `testdata/` directory:
+
 - `images/` - Image files for testing
 - `prjctimport/` - CSV files for project import tests
 
@@ -276,10 +289,10 @@ ISC
 
 ## 👤 Author
 
-[Your Name/Organization]
+MARK ANGELO CASUCO
+SOFTWARE QA LEAD / AQARYINT
 
 ## 🙏 Acknowledgments
 
 - Built with [Playwright](https://playwright.dev/)
 - Using [@faker-js/faker](https://fakerjs.dev/) for test data generation
-
