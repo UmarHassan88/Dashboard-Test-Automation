@@ -6,6 +6,29 @@ export class ProjectsPage {
     this.lastReadyProjectName = null;
     this.lastOffplanProjectName = null;
     this.lastMultiphaseProjectName = null;
+    this.managementCompanydropdown = page.getByRole("combobox", {
+      name: "Enter management company",
+    });
+    this.projectStatusdropdown = page.getByRole("combobox", {
+      name: "Enter project status",
+    });
+    this.bank = page.getByRole("textbox", { name: "Enter Bank" });
+    this.escrow = page.getByRole("textbox", { name: "Enter number" });
+    this.registrationDate = page.locator('input[name="registration_date"]');
+    this.descriptionAR = page.getByRole("textbox", { name: "وصف المشروع" });
+    this.minArea = page.getByPlaceholder("Min Area");
+    this.maxArea = page.getByPlaceholder("Max Area");
+    this.unitTypemultiselect = page.getByRole("combobox", {
+      name: "Select Unit Types",
+    });
+    this.minBedrooms = page.getByPlaceholder("Min Bedrooms");
+    this.maxBedrooms = page.getByPlaceholder("Max Bedrooms");
+    this.adminFees = page.getByPlaceholder("Enter admin fees");
+    this.NocFees = page.getByPlaceholder("Enter NOC fees");
+    this.madmhoun = page.getByRole("textbox", {
+      name: "Enter Madhmoun (Permit number)",
+    });
+    this.madhmoudexpirydate = page.locator('input[name="madhmoun_date"]');
   }
 
   // ---------- High-level flows ----------
@@ -20,19 +43,40 @@ export class ProjectsPage {
     await this.page.getByRole("button", { name: "Add Project" }).click();
 
     await this.page.fill('input[name="project_name"]', name);
+    await this.page.fill('input[name="project_name_ar"]', name + " AR");
+
     await this.page.fill('input[name="license_no"]', licenseNumber);
     await this.page.fill('input[name="project_no"]', projectNumber);
     await this.page.fill('input[name="starting_price"]', startingPrice);
     await this.page
       .getByRole("combobox", { name: "Enter developer company" })
       .click();
+    const randomDeveloper = Math.floor(Math.random() * 25);
+    await this.page
+      .locator('ul[role="listbox"] >> li')
+      .nth(randomDeveloper)
+      .click();
+
+    await this.managementCompanydropdown.click();
     await this.page.locator('ul[role="listbox"] >> li').nth(0).click();
+    await this.projectStatusdropdown.click();
+    await this.page.locator('ul[role="listbox"] >> li').nth(1).click();
 
     await this._locationRandom();
     await this.page.evaluate(() => window.scrollBy(0, 250));
-    await this._drawPolygonOnMap();
+    await this._clickCenterMap();
+    const randombank = ["Emirates NBD", "ADCB", "FAB", "Mashreq Bank"];
+    await this.bank.fill(randombank[this._randomNumber(0, 3)]);
+    await this.escrow.fill(this._randomNumber(100000, 999999).toString());
+    const randomDate = `${this._randomNumber(1, 12)
+      .toString()
+      .padStart(2, "0")}/${this._randomNumber(1, 28)
+      .toString()
+      .padStart(2, "0")}/2024`;
+    await this.registrationDate.fill(randomDate);
     await this._readyDetails();
     await this._writeDescription();
+    this.descriptionAR.fill("هذا وصف المشروع باللغة العربية.");
     await this._facilities();
     await this._amenities();
     await this.page.getByRole("button", { name: "submit" }).click();
@@ -49,17 +93,25 @@ export class ProjectsPage {
     await this.page.getByRole("button", { name: "Add Project" }).click();
 
     await this.page.fill('input[name="project_name"]', name);
+    await this.page.fill('input[name="project_name_ar"]', name + " AR");
     await this.page.fill('input[name="license_no"]', licenseNumber);
     await this.page.fill('input[name="project_no"]', projectNumber);
     await this.page.fill('input[name="starting_price"]', startingPrice);
     await this.page
       .locator('input[placeholder="Enter developer company"]')
       .click();
+    const randomDeveloper = Math.floor(Math.random() * 25);
+    await this.page
+      .locator('ul[role="listbox"] >> li')
+      .nth(randomDeveloper)
+      .click();
+    await this.managementCompanydropdown.click();
     await this.page.locator('ul[role="listbox"] >> li').nth(0).click();
-
+    await this.projectStatusdropdown.click();
+    await this.page.locator('ul[role="listbox"] >> li').nth(1).click();
     await this._locationRandom();
     await this.page.evaluate(() => window.scrollBy(0, 250));
-    await this._drawPolygonOnMap();
+    await this._clickCenterMap();
     await this._projectDetails();
     await this._writeDescription();
     await this._facilities();
@@ -453,6 +505,21 @@ export class ProjectsPage {
       .locator('input[placeholder="Select Completion Status"]')
       .click();
     await this.page.locator('ul[role="listbox"] >> li').nth(1).click();
+
+    await this.minArea.fill(this._randomNumber(1, 1000).toString());
+    await this.maxArea.fill(this._randomNumber(1000, 5000).toString());
+    await this.unitTypemultiselect.click();
+    const randomUnitTypeIndices = this._uniqueRandoms(3, 0, 11);
+    for (const index of randomUnitTypeIndices) {
+      await this.page.locator('ul[role="listbox"] >> li').nth(index).click();
+      await this.unitTypemultiselect.click();
+    }
+    await this.minBedrooms.fill(this._randomNumber(1, 5).toString());
+    await this.maxBedrooms.fill(this._randomNumber(5, 10).toString());
+    await this.adminFees.fill(this._randomNumber(1000, 5000).toString());
+    await this.NocFees.fill(this._randomNumber(500, 3000).toString());
+    await this.madmhoun.fill(this._randomNumber(100000, 999999).toString());
+    await this.madhmoudexpirydate.fill("12/31/2025");
     await this.page.locator('input[placeholder="Select Life Style"]').click();
     await this.page
       .locator('ul[role="listbox"] >> li')
@@ -512,7 +579,7 @@ export class ProjectsPage {
   }
 
   async _facilities() {
-    const ids = this._uniqueRandoms(10, 1, 77);
+    const ids = this._uniqueRandoms(10, 1930, 2028);
     for (const id of ids) {
       try {
         await this.page.getByTestId(String(id)).click();
@@ -521,7 +588,7 @@ export class ProjectsPage {
   }
 
   async _amenities() {
-    const ids = this._uniqueRandoms(10, 78, 200);
+    const ids = this._uniqueRandoms(10, 1926, 2061);
     for (const id of ids) {
       try {
         await this.page.getByTestId(String(id)).click();
