@@ -114,6 +114,8 @@ export class ProjectsPage {
     await this._clickCenterMap();
     await this._projectDetails();
     await this._writeDescription();
+    this.descriptionAR.fill("هذا وصف المشروع باللغة العربية.");
+
     await this._facilities();
     await this._amenities();
     await this.page.getByRole("button", { name: "submit" }).click();
@@ -130,18 +132,41 @@ export class ProjectsPage {
     await this.page.getByRole("button", { name: "Add Project" }).click();
 
     await this.page.fill('input[name="project_name"]', name);
+    await this.page.fill('input[name="project_name_ar"]', name + " AR");
+    const randomDeveloper = Math.floor(Math.random() * 25);
     await this.page.fill('input[name="license_no"]', licenseNumber);
     await this.page.fill('input[name="project_no"]', projectNumber);
     await this.page.fill('input[name="starting_price"]', startingPrice);
+    this.managementCompanydropdown.click();
+    await this.page.locator('ul[role="listbox"] >> li').nth(0).click();
+    this.projectStatusdropdown.click();
+    await this.page.locator('ul[role="listbox"] >> li').nth(1).click();
     await this.page
       .locator('input[placeholder="Enter developer company"]')
       .click();
-    await this.page.locator('ul[role="listbox"] >> li').nth(0).click();
+    await this.page
+      .locator('ul[role="listbox"] >> li')
+      .nth(randomDeveloper)
+      .click();
     await this.page.getByRole("checkbox").click();
 
     await this._locationRandom();
     await this.page.evaluate(() => window.scrollBy(0, 250));
-    await this._drawPolygonOnMap();
+    await this._clickCenterMap();
+    await this.minArea.fill(this._randomNumber(1, 1000).toString());
+    await this.maxArea.fill(this._randomNumber(1000, 5000).toString());
+    await this.unitTypemultiselect.click();
+    const randomUnitTypeIndices = this._uniqueRandoms(3, 0, 11);
+    for (const index of randomUnitTypeIndices) {
+      await this.page.locator('ul[role="listbox"] >> li').nth(index).click();
+      await this.unitTypemultiselect.click();
+    }
+    await this.minBedrooms.fill(this._randomNumber(1, 5).toString());
+    await this.maxBedrooms.fill(this._randomNumber(6, 10).toString());
+    await this.adminFees.fill(this._randomNumber(1000, 5000).toString());
+    await this.NocFees.fill(this._randomNumber(500, 3000).toString());
+    await this.madmhoun.fill(this._randomNumber(100000, 999999).toString());
+    await this.madhmoudexpirydate.fill("12/12/2025");
     await this.page.locator('input[placeholder="Select Life Style"]').click();
     await this.page
       .locator('ul[role="listbox"] >> li')
@@ -150,7 +175,52 @@ export class ProjectsPage {
     await this.page.locator('input[name="start_date"]').fill("01/01/2025");
     await this.page.evaluate(() => window.scrollBy(0, 350));
     await this._writeDescription();
-    await this._facilities();
+    await this.descriptionAR.fill("هذا وصف المشروع باللغة العربية.");
+    // await this._facilities();
+    // await this._amenities();
+    // Get all facility chips
+    const allChips = await this.page.$$(".chip");
+    console.log(`Found ${allChips.length} total facilities`);
+
+    // Number of random facilities to select (adjust as needed)
+    const numberOfSelections = 10;
+
+    // Create array of random indices
+    const selectedIndices = [];
+    while (
+      selectedIndices.length < numberOfSelections &&
+      selectedIndices.length < allChips.length
+    ) {
+      const randomIndex = Math.floor(Math.random() * allChips.length);
+      if (!selectedIndices.includes(randomIndex)) {
+        selectedIndices.push(randomIndex);
+      }
+    }
+
+    console.log(`Selecting ${selectedIndices.length} random facilities...`);
+
+    // Click selected facilities
+    for (const index of selectedIndices) {
+      const chip = allChips[index];
+
+      // Get facility name
+      const facilityName = await chip.getAttribute("data-testid");
+      const altText = await chip.$eval("img", (img) => img.getAttribute("alt"));
+
+      console.log(`Clicking: ${altText} (index: ${index})`);
+
+      // Scroll into view and click
+      await chip.scrollIntoViewIfNeeded();
+      await chip.click();
+
+      // Small delay between clicks
+      // await this.page.waitForTimeout(500);
+    }
+
+    console.log("All selections completed!");
+
+    // Keep browser open to see results
+    // await this.page.waitForTimeout(5000);
     await this.page.getByRole("button", { name: "submit" }).click();
   }
 
@@ -453,6 +523,20 @@ export class ProjectsPage {
       .locator('input[placeholder="Select Completion Status"]')
       .click();
     await this.page.locator('ul[role="listbox"] >> li').nth(0).click();
+    await this.minArea.fill(this._randomNumber(1, 1000).toString());
+    await this.maxArea.fill(this._randomNumber(1000, 5000).toString());
+    await this.unitTypemultiselect.click();
+    const randomUnitTypeIndices = this._uniqueRandoms(3, 0, 11);
+    for (const index of randomUnitTypeIndices) {
+      await this.page.locator('ul[role="listbox"] >> li').nth(index).click();
+      await this.unitTypemultiselect.click();
+    }
+    await this.minBedrooms.fill(this._randomNumber(1, 5).toString());
+    await this.maxBedrooms.fill(this._randomNumber(5, 10).toString());
+    await this.adminFees.fill(this._randomNumber(1000, 5000).toString());
+    await this.NocFees.fill(this._randomNumber(500, 3000).toString());
+    await this.madmhoun.fill(this._randomNumber(100000, 999999).toString());
+    await this.madhmoudexpirydate.fill("12/31/2025");
     await this.page.fill(
       'input[name="completion_percentage"]',
       this._randomNumber(1, 100).toString()
