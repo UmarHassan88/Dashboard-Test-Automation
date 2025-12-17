@@ -66,7 +66,7 @@ async function AddVerifyType(page) {
   await page.waitForTimeout(3000);
   await page.reload();
   console.log("Type Name to Verify: ", typeInput);
-  const verifyType = page.getByRole("cell", { name: typeInput, exact: true });
+  const verifyType = await page.getByRole("cell", { name: typeInput });
   await expect(verifyType).toBeVisible();
   console.log("Type is Verified Successfully!");
 }

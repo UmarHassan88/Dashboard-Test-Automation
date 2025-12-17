@@ -256,7 +256,7 @@ export async function fetchElementValue(page, locator) {
   console.log("Input Value: ", elementValue);
 }
 
-export async function mandatoryfieldValidation(page) {
+export async function mandatorycountryValidation(page) {
   await submitButton(page); //Submitting Empty Form to check Validations
   const country = page.getByText("Select Country *");
   //Validating the Required Fields b
