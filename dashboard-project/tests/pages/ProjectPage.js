@@ -227,8 +227,8 @@ export class ProjectsPage {
   }
 
   async addReadyProjectProperty() {
-    await this.page.goBack();
-    await this.projectButton.click();
+    // await this.page.goBack();
+    // await this.projectButton.click();
     if (!this.lastReadyProjectName)
       throw new Error("No ready project name set");
     await this._openProjectSecondaryActions(

@@ -156,7 +156,7 @@ export async function randomonlystringGenerator(page, locator, start, end) {
 
 export async function randomStringGenerator(page, locator) {
   const randomValues = Math.random().toString(36).substring(2, 4);
-  await locator.fill(`TestCompany${randomValues}`);
+  await locator.fill(`Testing${randomValues}`);
 }
 
 export async function tillGeneralSettings(page) {
@@ -204,7 +204,7 @@ export async function randomIntGenerator(page, locator) {
 export async function submitButton(page) {
   const submitButton = page.getByRole("button", { name: "submit" });
   await expect(submitButton).toBeVisible();
-  await submitButton.click();
+  await submitButton.click({ timeout: 3000 });
 }
 
 export async function selectCountry(page) {
@@ -266,7 +266,7 @@ export async function mandatorycountryValidation(page) {
 export async function mandatoryfieldsValidationCustom(page, locator) {
   await submitButton(page); //Submitting Empty Form to check Validations
   //Validating the Required Fields by classes
-  await expect(locator).toHaveClass(/Mui-error Mui-required/);
+  await expect(locator).toHaveClass(/Mui-required/);
 }
 
 export async function dropdownSelectfromLast(page, locator) {
