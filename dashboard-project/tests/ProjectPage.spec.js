@@ -17,7 +17,7 @@ test.describe("Projects Section Functional", () => {
   test("Add Ready Project and Property", async ({ page }) => {
     const projects = new ProjectsPage(page);
     await projects.addProjectReady();
-    // await projects.addReadyProjectProperty();
+    await projects.addReadyProjectProperty();
   });
 
   test("Add Offplan Project with Gallery and Plans", async ({ page }) => {

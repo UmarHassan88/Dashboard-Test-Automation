@@ -4,6 +4,7 @@ import { LoginPage } from "./LoginPage";
 export class ProjectsPage {
   constructor(page) {
     this.page = page;
+    this.projectButton = page.getByRole("button", { name: "Projects" }).nth(1);
     this.lastReadyProjectName = null;
     this.lastOffplanProjectName = null;
     this.lastMultiphaseProjectName = null;
@@ -226,6 +227,8 @@ export class ProjectsPage {
   }
 
   async addReadyProjectProperty() {
+    // await this.page.goBack();
+    // await this.projectButton.click();
     if (!this.lastReadyProjectName)
       throw new Error("No ready project name set");
     await this._openProjectSecondaryActions(
@@ -238,7 +241,16 @@ export class ProjectsPage {
       .locator('input[name="project_name"]')
       .inputValue();
     const propName = `${projectName} Properties`;
-    await this.page.getByPlaceholder("Enter property name").fill(propName);
+
+    await this.page
+      .getByRole("textbox", {
+        name: "Enter property name",
+        exact: true,
+      })
+      .fill(propName);
+    await this.page
+      .getByRole("textbox", { name: "Enter property name Ar" })
+      .fill(propName + " AR");
 
     this.page.setDefaultTimeout(5000);
     await this._clickCenterMap();
@@ -296,7 +308,7 @@ export class ProjectsPage {
         .click();
     }
 
-    await this._randomView();
+    // await this._randomView();
 
     if (await this.page.getByPlaceholder("Enter Plot Area").isVisible()) {
       await this.page
