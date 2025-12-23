@@ -1,7 +1,7 @@
 import { test } from "@playwright/test";
-import { SettingsListingPage } from "../../../pages/SettingsListingPage.js";
+import { ListingViews } from "../../../pages/ListingViews.js";
 
 test("This test adds a View and verifies it", async ({ page }) => {
-  const settingsListingPage = new SettingsListingPage(page);
-  await settingsListingPage.createView();
+  const ListingViewsinstance = new ListingViews(page);
+  await ListingViewsinstance.createView();
 });

@@ -58,16 +58,16 @@ export async function tillSettings(page) {
   await settingsOption.click();
 }
 
-export async function dropdownSelect(page, constant, j) {
-  await page.waitForTimeout(1000);
+export async function dropdownSelect(page, locator, j) {
+  await locator.click();
   for (var i = 0; i < j; i++) {
     await page.keyboard.press("ArrowDown");
   }
-  await constant.press("Enter");
+  await locator.press("Enter");
 }
 
 export async function dropdownSelectOnly(page, locator) {
-  await page.waitForTimeout(1000);
+  await locator.click();
   await page.keyboard.press("ArrowDown");
 
   await locator.press("Enter");
@@ -337,4 +337,9 @@ export async function tillFacilities(page) {
   await expect(setFacilitiesSection).toBeVisible();
   await setFacilitiesSection.click();
   console.log("Landed on the Manage Facilities Page");
+}
+
+export async function randomEmailGenerator(page, locator) {
+  const random = Math.random().toString(36).substring(2, 7);
+  await locator.fill(`randomemail${random}@gmail.com`);
 }

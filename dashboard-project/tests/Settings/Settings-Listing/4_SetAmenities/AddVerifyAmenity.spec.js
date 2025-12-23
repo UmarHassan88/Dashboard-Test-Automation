@@ -1,7 +1,9 @@
 import { test } from "@playwright/test";
-import { SettingsListingPage } from "../../../pages/SettingsListingPage.js";
+import { ListingAmenities } from "../../../pages/ListingAmenities.js";
 
 test("This test adds a new Amenity and verifies it", async ({ page }) => {
-  const settingsListingPage = new SettingsListingPage(page);
-  await settingsListingPage.createAmenity();
+  const ListingAmenitiesinstance = new ListingAmenities(page);
+  await ListingAmenitiesinstance.navigateToAmenities();
+  await ListingAmenitiesinstance.createAmenityCategory();
+  await ListingAmenitiesinstance.createAmenity();
 });

@@ -1,7 +1,7 @@
 import { test } from "@playwright/test";
-import { SettingsListingPage } from "../../../pages/SettingsListingPage.js";
+import { ListingTypeConfig } from "../../../pages/ListingTypeConfig.js";
 
 test("This test adds a new type config and verifies it", async ({ page }) => {
-  const settingsListingPage = new SettingsListingPage(page);
-  await settingsListingPage.createTypeConfig();
+  const ListingTypeConfiginstance = new ListingTypeConfig(page);
+  await ListingTypeConfiginstance.createTypeConfig();
 });

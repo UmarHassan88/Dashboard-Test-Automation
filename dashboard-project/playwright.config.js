@@ -47,7 +47,7 @@ export default defineConfig({
         ...devices["Desktop Chrome"],
         trace: "on",
         headless: true,
-        viewport: { width: 1280, height: 1330 },
+        viewport: { width: 1780, height: 1080 },
       },
     },
 

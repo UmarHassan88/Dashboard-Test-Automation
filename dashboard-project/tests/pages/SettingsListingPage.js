@@ -20,7 +20,10 @@ export class SettingsListingPage extends SettingsPage {
 
   async navigateToType() {
     await this.navigateToListingSettings();
-    const typeSection = this.page.getByRole("button", { name: "Type", exact: true });
+    const typeSection = this.page.getByRole("button", {
+      name: "Type",
+      exact: true,
+    });
     await expect(typeSection).toBeVisible();
     await typeSection.click();
   }
@@ -61,7 +64,9 @@ export class SettingsListingPage extends SettingsPage {
     });
     await randomStringGenerator(this.page, typeAR);
 
-    const usage = this.page.getByRole("combobox", { name: "Please select usage" });
+    const usage = this.page.getByRole("combobox", {
+      name: "Please select usage",
+    });
     await usage.click();
     await dropdownSelect(this.page, usage, 2);
 
@@ -134,7 +139,9 @@ export class SettingsListingPage extends SettingsPage {
 
   async createFacilityCategory() {
     await this.navigateToFacilities();
-    const createFacility = this.page.getByRole("button", { name: "Create Facility" });
+    const createFacility = this.page.getByRole("button", {
+      name: "Create Facility",
+    });
     await expect(createFacility).toBeVisible();
     await createFacility.click();
     console.log("Creating a Facility at Create Page");
@@ -156,7 +163,9 @@ export class SettingsListingPage extends SettingsPage {
     console.log("---Verifying the created Facilty---");
     await this.page.waitForTimeout(3000);
     await this.page.reload();
-    const verifyFacility = this.page.getByRole("cell", { name: facilityNameinput });
+    const verifyFacility = this.page.getByRole("cell", {
+      name: facilityNameinput,
+    });
     console.log("Facility to Verify: ", facilityNameinput);
     await expect(verifyFacility).toBeVisible();
     console.log("Facility Verified Successfully!");
@@ -173,7 +182,9 @@ export class SettingsListingPage extends SettingsPage {
     await expect(innerFacilities).toBeVisible();
     await innerFacilities.click();
     console.log("Landed on Manage Inner Facilities Page");
-    const addFacility = await this.page.getByRole("button", { name: "add Facility" });
+    const addFacility = await this.page.getByRole("button", {
+      name: "add Facility",
+    });
     await expect(addFacility).toBeVisible();
     await addFacility.click();
     console.log("Landed on Add Facility Form");
@@ -200,7 +211,9 @@ export class SettingsListingPage extends SettingsPage {
     await this.page.waitForTimeout(3000);
     await this.page.reload();
     console.log("Inner Facility to Verify: ", facNameinput);
-    const verifyFacility = await this.page.getByRole("cell", { name: facNameinput });
+    const verifyFacility = await this.page.getByRole("cell", {
+      name: facNameinput,
+    });
     await expect(verifyFacility).toBeVisible();
     console.log("Inner Facility Verified Successfully!");
   }
@@ -222,7 +235,9 @@ export class SettingsListingPage extends SettingsPage {
     });
     await createAmenitiesbutton.click();
     console.log("Applying the Mandatory Validation");
-    const amenityCategorymand = this.page.getByText("Amenities Category Name *");
+    const amenityCategorymand = this.page.getByText(
+      "Amenities Category Name *"
+    );
     await mandatoryfieldsValidationCustom(this.page, amenityCategorymand);
 
     console.log("Filling the Form to Create an Amenity Category");
@@ -232,7 +247,9 @@ export class SettingsListingPage extends SettingsPage {
     });
     await randomonlystringGenerator(this.page, amenCat, 3, 12);
     const amenCatinput = await amenCat.inputValue();
-    const amenCatAR = this.page.getByRole("textbox", { name: "Enter Name Arabic" });
+    const amenCatAR = this.page.getByRole("textbox", {
+      name: "Enter Name Arabic",
+    });
     await randomonlystringGenerator(this.page, amenCatAR, 3, 12);
     await submitButton(this.page);
     console.log("\nAdded the Amenity Category Successfully!");
@@ -240,7 +257,9 @@ export class SettingsListingPage extends SettingsPage {
     await this.page.waitForTimeout(3000);
     await this.page.reload();
     console.log("Amenity Category to Verify: ", amenCatinput);
-    const verifyAmenity = await this.page.getByRole("cell", { name: amenCatinput });
+    const verifyAmenity = await this.page.getByRole("cell", {
+      name: amenCatinput,
+    });
     await expect(verifyAmenity).toBeVisible();
     console.log("Amenity Category Verified SuccessFully!");
   }
@@ -280,78 +299,4 @@ export class SettingsListingPage extends SettingsPage {
     await submitButton(this.page);
     console.log("Added the Amenity Successfully!");
   }
-
-  async navigateToViews() {
-    await this.navigateToListingSettings();
-    const viewsSection = this.page.getByRole("button", { name: "Views" });
-    await expect(viewsSection).toBeVisible();
-    await viewsSection.click();
-  }
-
-  async createView() {
-    await this.navigateToViews();
-    console.log("Landed on the Manage Views Page");
-    const addView = this.page.getByRole("button", { name: "Add View" });
-    await expect(addView).toContainClass("MuiButton-colorPrimary");
-    console.log("Class Exists!");
-    await addView.click();
-    console.log("Landed on the Add View Page");
-    console.log("Applying the Mandatory Check!");
-    const viewnameMand = this.page.getByText("View Name *");
-    const viewiconMand = this.page.getByText("View Icon *");
-    await mandatoryfieldsValidationCustom(this.page, viewnameMand);
-    await mandatoryfieldsValidationCustom(this.page, viewiconMand);
-    console.log("\nFilling the Form to Create a View");
-    const viewName = this.page.getByRole("textbox", {
-      name: "Enter View Name",
-      exact: true,
-    });
-    await expect(viewName).toBeVisible();
-    await randomonlystringGenerator(this.page, viewName, 2, 6);
-    const viewinput = await viewName.inputValue();
-    const viewnameAR = this.page.getByRole("textbox", {
-      name: "Enter View Name Arabic",
-    });
-    await randomonlystringGenerator(this.page, viewnameAR, 2, 6);
-    const icon = this.page.getByRole("button", { name: "Choose File" });
-    await uploadFile(this.page, icon);
-    await submitButton(this.page);
-    console.log("View is added successfully!");
-    console.log("---Verifying the added View---");
-    console.log("View to Verify: ", viewinput);
-    await this.page.waitForTimeout(3000);
-    await this.page.reload();
-    const verifyView = await this.page.getByRole("cell", { name: viewinput }).first();
-    await expect(verifyView).toBeVisible();
-    console.log("The View is Verified Successfully!");
-  }
-
-  async navigateToTypeConfigs() {
-    await this.navigateToListingSettings();
-    const typeConfigsSection = this.page.getByRole("button", {
-      name: "Type Configs",
-    });
-    await expect(typeConfigsSection).toBeVisible();
-    await typeConfigsSection.click();
-  }
-
-  async createTypeConfig() {
-    await this.navigateToTypeConfigs();
-    console.log("Landed on the Manage Type Config Page");
-    const createTypeconfig = this.page.getByRole("button", {
-      name: "Create Type Configs",
-    });
-    await expect(createTypeconfig).toBeVisible();
-    await createTypeconfig.click();
-    console.log("Filling the form to create a type config");
-    const country = this.page.getByRole("combobox", { name: "Select Country" });
-    await dropdownSelect(this.page, country, 1);
-    const moduleName = this.page.getByRole("combobox", { name: "Select Module Name" });
-    await dropdownSelect(this.page, moduleName, 1);
-    const typeName = this.page.getByRole("combobox", { name: "Select Type Name" });
-    await dropdownSelectOnly(this.page, typeName);
-    const category = this.page.getByRole("combobox", { name: "Select Category" });
-    await dropdownSelect(this.page, category, 1);
-  }
 }
-

@@ -22,14 +22,14 @@ export class LoginPage {
     await this.usernameInput.fill(username);
     await this.passwordInput.fill(password);
     await this.loginButton.click();
-    await this.page
-      .getByRole("banner")
-      .getByRole("main")
-      .getByRole("button")
-      .filter({ hasText: /^$/ })
-      .nth(4)
-      .click();
-    await this.page.getByRole("checkbox", { name: "Switch to v2" }).click();
+    // await this.page
+    //   .getByRole("banner")
+    //   .getByRole("main")
+    //   .getByRole("button")
+    //   .filter({ hasText: /^$/ })
+    //   .nth(4)
+    //   .click();
+    // await this.page.getByRole("checkbox", { name: "Switch to v2" }).click();
   }
 
   async assertLoaded() {
