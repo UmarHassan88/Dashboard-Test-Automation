@@ -24,7 +24,7 @@ export class SettingsLegalPage extends SettingsPage {
   }
 
   async createLicense() {
-    await this.navigateToLicenses();
+    await this.navigateToLicenses(); 
     console.log("Landed on Licenses Page");
     const createLicensebutton = this.page.getByRole("button", {
       name: "create License",
@@ -249,6 +249,5 @@ export class SettingsLegalPage extends SettingsPage {
     console.log(
       "Added Legal Condition for the Account Type Verified in the List Successfully!"
     );
-  }
+  } 
 }
-

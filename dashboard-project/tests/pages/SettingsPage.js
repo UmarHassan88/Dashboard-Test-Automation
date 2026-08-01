@@ -38,7 +38,10 @@ export class SettingsPage {
 
   async navigateToLegalSettings() {
     await this.navigateToSettings();
-    const legalOption = this.page.getByRole("button", { name: "Legal", exact: true });
+    const legalOption = this.page.getByRole("button", {
+      name: "Legal",
+      exact: true,
+    });
     await expect(legalOption).toBeVisible();
     await legalOption.click();
   }
@@ -50,4 +53,3 @@ export class SettingsPage {
     await listingOption.click();
   }
 }
-

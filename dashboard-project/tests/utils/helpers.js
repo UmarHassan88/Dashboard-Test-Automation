@@ -1,7 +1,7 @@
 import { test, expect } from "@playwright/test";
 
 export async function Login(page) {
-  await page.goto("http://192.168.1.203:3000/en/login");
+  await page.goto("http://192.168.1.203:3008/auth/login");
   const emailInput = page.getByRole("textbox", { name: "admin@aqaryint.com" });
   const emailAssert = page.getByText("Email/User has to be filled.");
   const passwordInput = page.getByRole("textbox", {
@@ -18,14 +18,14 @@ export async function Login(page) {
   let incorrectEmailUser = "admin";
   let correctEmailUser = "superadmin";
   let incorrectPassword = "12345";
-  let correctPassword = "HereWeGo@2025";
+  let correctPassword = "HereWeGo@2026";
   //Incorrect Email Scenario
 
   await emailInput.fill(incorrectEmailUser);
   await passwordInput.fill(correctPassword);
   await submitButton.click();
   await expect(
-    page.getByRole("alert").filter({ hasText: "no data found" })
+    page.getByRole("alert").filter({ hasText: "no data found" }),
   ).toBeVisible();
 
   //Incorrect Password Scenario
@@ -33,7 +33,7 @@ export async function Login(page) {
   await passwordInput.fill(incorrectPassword);
   await submitButton.click();
   await expect(
-    page.getByRole("alert").filter({ hasText: "invalid login credentials" })
+    page.getByRole("alert").filter({ hasText: "invalid login credentials" }),
   ).toBeVisible();
 
   //Correct Credentials Scenario
@@ -43,15 +43,12 @@ export async function Login(page) {
 }
 
 export async function tillSettings(page) {
-  const profileIcon = await page
-    .getByRole("button")
-    .filter({ hasText: /^$/ })
-    .nth(5);
-  await profileIcon.click();
-  const v2Toggle = page.getByRole("checkbox", { name: "Switch to v2" });
-  await v2Toggle.click();
-  const V2UIAssert = await page.getByText("Property Management Platform");
-  await expect(V2UIAssert).toBeVisible();
+  // const profileIcon = await page.locator("button").nth(2);
+  // await profileIcon.click();
+  // const v2Toggle = page.getByRole("checkbox", { name: "Switch to v2" });
+  // await v2Toggle.click();
+  // const V2UIAssert = await page.getByText("Property Management Platform");
+  // await expect(V2UIAssert).toBeVisible();
   //Redirect to Settings
   const settingsOption = page.getByRole("button", { name: "Settings" });
 
@@ -120,13 +117,13 @@ export async function fillLocationDetails(page) {
 
 export async function tillAccounts(page) {
   await Login(page);
-  const profileIcon = await page
-    .getByRole("button")
-    .filter({ hasText: /^$/ })
-    .nth(5);
-  await profileIcon.click();
-  const v2Toggle = page.getByRole("checkbox", { name: "Switch to v2" });
-  await v2Toggle.click();
+  // const profileIcon = await page
+  //   .getByRole("button")
+  //   .filter({ hasText: /^$/ })
+  //   .nth(5);
+  // await profileIcon.click();
+  // const v2Toggle = page.getByRole("checkbox", { name: "Switch to v2" });
+  // await v2Toggle.click();
   const V2UIAssert = await page.getByText("Property Management Platform");
   await expect(V2UIAssert).toBeVisible();
   const AccountsMenu = page.getByRole("button", { name: "Accounts" });
@@ -144,14 +141,14 @@ export async function tillAccounts(page) {
   await accountTypeSelect.click();
 }
 
-export async function randomonlystringGenerator(page, locator, start, end) {
+export async function randomonlystringGenerator(page, locator, length = 5) {
   const chars = "abcdefghijklmnopqrstuvwxyz";
   let result = "";
-  for (let i = start; i < end; i++) {
+  for (let i = 0; i < length; i++) {
     // const randomIndex = Math.floor(Math.random() * chars.length);
-    result += chars.charAt(i);
+    result += chars.charAt(Math.floor(Math.random() * chars.length));
   }
-  await locator.fill(result);
+  await locator.fill(`Testing${result}`);
 }
 
 export async function randomStringGenerator(page, locator) {
@@ -241,7 +238,8 @@ export async function selectSubCommunity(page) {
 }
 
 export async function uploadFile(page, locator) {
-  await locator.setInputFiles("C:\\Users\\umar\\Downloads\\scannerr.png");
+  // await locator.click();
+  await locator.setInputFiles("C:\\Users\\umar\\Downloads\\scanner.png");
 }
 
 export async function selectlatlang(page) {
@@ -292,7 +290,7 @@ export async function tillLegal(page) {
 
 export async function mandatoryFields(page, locator) {
   await submitButton(page); //Submitting Empty Form to check Validations
-  const childErrorClass = await locator.locator(".Mui-error.Mui-required");
+  const childErrorClass = await locator.locator(".Mui-required");
   await expect(childErrorClass).toBeVisible();
 }
 

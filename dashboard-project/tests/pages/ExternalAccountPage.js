@@ -31,7 +31,9 @@ export class ExternalAccountPage {
     await this.selectAccountType("Individual");
 
     // Assert for the Individual Type Form and the Mandatory fields
-    const requiredFields = await this.page.locator("label.Mui-error.Mui-required");
+    const requiredFields = await this.page.locator(
+      "label.Mui-error.Mui-required"
+    );
     const count = await requiredFields.count();
     console.log(`Found ${count} required fields:`);
     for (let i = 0; i < count; i++) {
@@ -50,7 +52,9 @@ export class ExternalAccountPage {
       name: "Please Select Individual Type",
     });
     await individualName.click();
-    const freelancerOption = this.page.getByRole("option", { name: "freelancer" });
+    const freelancerOption = this.page.getByRole("option", {
+      name: "freelancer",
+    });
     await expect(freelancerOption).toBeVisible();
     await freelancerOption.click();
 
@@ -68,7 +72,9 @@ export class ExternalAccountPage {
       .getByRole("textbox", { name: "Enter Last Name" });
     await lastName.fill(`User${randomString}`);
 
-    const email = this.page.getByRole("textbox", { name: "Admin email address" });
+    const email = this.page.getByRole("textbox", {
+      name: "Admin email address",
+    });
     await email.fill(`TestUser${randomString}@example.com`);
 
     const contactNum = this.page.getByPlaceholder("Enter Contact Phone no");
@@ -100,23 +106,28 @@ export class ExternalAccountPage {
     await expect(serviceExpertiseOptions).toBeVisible();
     await serviceExpertiseOptions.click();
 
-    const countrySelect = this.page.getByRole("combobox", { name: "Select Country" });
+    const countrySelect = this.page.getByRole("combobox", {
+      name: "Select Country",
+    });
     await countrySelect.click();
     await this.page.locator('ul[role="listbox"] >> li').nth(0).click();
 
     const serviceArea = this.page.getByRole("combobox", {
       name: "Select Service Area",
     });
-    await serviceArea.click();    
+    await serviceArea.click();
     await this.page.locator('ul[role="listbox"] >> li').nth(2).click();
 
-
-    const languages = this.page.getByRole("combobox", { name: "Select Languages" });
+    const languages = this.page.getByRole("combobox", {
+      name: "Select Languages",
+    });
     await languages.click();
     await this.page.locator('ul[role="listbox"] >> li').nth(2).click();
 
-    const experienceSince = this.page.getByRole("textbox", { name: "MM/DD/YYYY" });
-    await experienceSince.fill("01/01/2015");
+    const experienceSince = this.page.getByRole("textbox", {
+      name: "MM/DD/YYYY",
+    });
+    await experienceSince.fill("01/01/2026");
   }
 
   async fillSocialMediaDetails() {
@@ -124,11 +135,15 @@ export class ExternalAccountPage {
       name: "Select platform name",
     });
     await platformName.click();
-    const platformFacebook = this.page.getByRole("option", { name: "Facebook" });
+    const platformFacebook = this.page.getByRole("option", {
+      name: "Facebook",
+    });
     await expect(platformFacebook).toBeVisible();
     await platformFacebook.click();
 
-    const platformURL = this.page.getByRole("textbox", { name: "Enter paltform url" });
+    const platformURL = this.page.getByRole("textbox", {
+      name: "Enter paltform url",
+    });
     await platformURL.fill("https://www.facebook.com/testuser");
     await expect(this.page.getByTestId("add-platform")).toBeVisible();
   }
@@ -143,7 +158,9 @@ export class ExternalAccountPage {
     await countrySelect.click();
     await dropdownSelectOnly(this.page, countrySelect);
 
-    const currencies = this.page.getByRole("combobox", { name: "Please a Currency" });
+    const currencies = this.page.getByRole("combobox", {
+      name: "Please a Currency",
+    });
     await currencies.click();
     await dropdownSelect(this.page, currencies, 3);
   }
@@ -185,7 +202,8 @@ export class ExternalAccountPage {
     await this.page.getByRole("button", { name: "Submit" }).click();
 
     const currentURL = this.page.url();
-    const expectedURL = "http://192.168.1.203:3000/en/dashboard/accounts/create";
+    const expectedURL =
+      "http://192.168.1.203:3000/en/dashboard/accounts/create";
     await expect(currentURL).toEqual(expectedURL);
     await expect(currentURL).toContain("/dashboard/accounts/create");
   }
@@ -244,17 +262,23 @@ export class ExternalAccountPage {
 
   async fillCompanyAdminContact() {
     console.log("Filling the Company Admin Contact Details...");
-    await this.page.evaluate(() => window.scrollTo(0, document.body.scrollHeight));
+    await this.page.evaluate(() =>
+      window.scrollTo(0, document.body.scrollHeight)
+    );
 
     const userName = this.page.getByRole("textbox", { name: "Enter Username" });
     await randomonlystringGenerator(this.page, userName, 2, 7);
     const userNameAssert = this.page.getByText("Username must start with a");
     await expect.soft(userNameAssert).toBeHidden();
 
-    const lastName = await this.page.getByRole("textbox", { name: "Enter Last Name" });
+    const lastName = await this.page.getByRole("textbox", {
+      name: "Enter Last Name",
+    });
     await lastName.fill("Temp");
 
-    const adminEmail = this.page.getByRole("textbox", { name: "Admin email address" });
+    const adminEmail = this.page.getByRole("textbox", {
+      name: "Admin email address",
+    });
     const emailVal = this.page.getByText("Invalid email address");
     await expect.soft(emailVal).toBeVisible();
     await randomonlystringGenerator(this.page, adminEmail, 3, 9);
@@ -279,4 +303,3 @@ export class ExternalAccountPage {
     await submitButton(this.page);
   }
 }
-

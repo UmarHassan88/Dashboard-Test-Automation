@@ -30,7 +30,7 @@ export class ProjectsPage {
     this.madmhoun = page.getByRole("textbox", {
       name: "Enter Madhmoun (Permit number)",
     });
-    this.madhmoudexpirydate = page.locator('input[name="madhmoun_date"]');
+    this.madhmoudexpirydate = page.getByText("MM/DD/YYYY").nth(5);
   }
 
   // ---------- High-level flows ----------

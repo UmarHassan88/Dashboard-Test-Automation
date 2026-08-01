@@ -5,7 +5,7 @@ export class LoginPage {
   constructor(page) {
     this.page = page;
     this.usernameInput = page.getByRole("textbox", {
-      name: "admin@aqaryint.com",
+      name: "superadmin",
     });
     this.passwordInput = page.getByRole("textbox", {
       name: "Enter your password",
@@ -13,7 +13,7 @@ export class LoginPage {
     this.loginButton = page.getByRole("button", { name: "Log in" });
   }
   async goto() {
-    const BASE_URL = "http://192.168.1.203:3000/en/login";
+    const BASE_URL = "http://192.168.1.203:3008/en/auth/login";
     await this.page.goto(BASE_URL);
     // await this.page.getByRole("button", { name: "Discover Now" }).click();
   }
@@ -22,22 +22,16 @@ export class LoginPage {
     await this.usernameInput.fill(username);
     await this.passwordInput.fill(password);
     await this.loginButton.click();
-    // await this.page
-    //   .getByRole("banner")
-    //   .getByRole("main")
-    //   .getByRole("button")
-    //   .filter({ hasText: /^$/ })
-    //   .nth(4)
-    //   .click();
+    // await this.page.locator("button").nth(2).click();
     // await this.page.getByRole("checkbox", { name: "Switch to v2" }).click();
   }
 
   async assertLoaded() {
-    await expect(this.page).toHaveTitle(/Aqary International/i);
+    await expect(this.page).toHaveTitle(/Aqary International/);
   }
   async assertLoginSuccess() {
     // await expect(this.page).toHaveTitle(/Dashboard|Aqary/i);
-    await expect(this.page).toHaveURL("http://192.168.1.203:3000/en/dashboard");
+    await expect(this.page).toHaveURL("http://192.168.1.203:3008/en/dashboard");
   }
   async assertInvalidLogin() {
     await expect(

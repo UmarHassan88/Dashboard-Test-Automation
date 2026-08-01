@@ -1,6 +1,11 @@
 import { expect } from "@playwright/test";
 import { SettingsPage } from "./SettingsPage.js";
-import { dropdownSelectOnly, submitButton, dropdownSelect, uploadFile } from "../utils/helpers.js";
+import {
+  dropdownSelectOnly,
+  submitButton,
+  dropdownSelect,
+  uploadFile,
+} from "../utils/helpers.js";
 
 export class SettingsAccountPage extends SettingsPage {
   constructor(page) {
@@ -14,9 +19,11 @@ export class SettingsAccountPage extends SettingsPage {
     await industryButton.click();
   }
 
-  async createIndustry(industryName = "Test Industry 9014") {
+  async createIndustry(industryName = "Test Industry 9017") {
     await this.navigateToIndustry();
-    const createIndustry = this.page.getByRole("button", { name: "create industry" });
+    const createIndustry = this.page.getByRole("button", {
+      name: "create industry",
+    });
     await expect(createIndustry).toBeVisible();
     await createIndustry.click();
 
@@ -31,14 +38,21 @@ export class SettingsAccountPage extends SettingsPage {
 
   async navigateToCompanyType() {
     await this.navigateToAccountSettings();
-    const companyTypeButton = this.page.getByRole("button", { name: "Company Type" });
+    const companyTypeButton = this.page.getByRole("button", {
+      name: "Company Type",
+    });
     await expect(companyTypeButton).toBeVisible();
     await companyTypeButton.click();
   }
 
-  async createCompanyType(industryValue = "Test Industry 9014", typeName = "Test Company Type 9014") {
+  async createCompanyType(
+    industryValue = "Test Industry 9017",
+    typeName = "Test Company Type 9017",
+  ) {
     await this.navigateToCompanyType();
-    const createTypeButton = this.page.getByRole("button", { name: "create type" });
+    const createTypeButton = this.page.getByRole("button", {
+      name: "create type",
+    });
     await createTypeButton.click();
 
     // Check assertions
@@ -75,9 +89,9 @@ export class SettingsAccountPage extends SettingsPage {
   }
 
   async createCompanyActivity(
-    industryValue = "Test Industry 9014",
-    typeValue = "Test Company Type 9014",
-    activityName = "Test Account Activity 9014"
+    industryValue = "Test Industry 9017",
+    typeValue = "Test Company Type 9017",
+    activityName = "Test Account Activity 9017",
   ) {
     await this.navigateToCompanyActivity();
     const createActivityButton = this.page.getByRole("button", {
@@ -108,7 +122,8 @@ export class SettingsAccountPage extends SettingsPage {
     await activityNameField.fill(activityName);
     const submitBtn = this.page.getByRole("button", { name: "submit" });
     await submitBtn.click();
-    await this.page.waitFor     (2000);
+    await this.page.waitForTimeout();
+    2000;
   }
 
   async navigateToManageModules() {
@@ -155,12 +170,13 @@ export class SettingsAccountPage extends SettingsPage {
     console.log("---Verifying the Added Module in the List---");
     // await this.page.waitForTimeout(2000);
     await this.page.reload();
-    const verifyModuleName = this.page.getByRole("cell", { name: moduleNameValue });
+    const verifyModuleName = this.page.getByRole("cell", {
+      name: moduleNameValue,
+    });
     await expect(verifyModuleName).toBeVisible();
     console.log(
       "Added Module Name Verified in the List Successfully which is:",
-      await verifyModuleName.innerText()
+      await verifyModuleName.innerText(),
     );
   }
 }
-
