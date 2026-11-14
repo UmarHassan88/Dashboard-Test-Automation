@@ -1,5 +1,5 @@
 import { expect } from "@playwright/test";
-import { randomStringGenerator, submitButton } from "../utils/helpers";
+import { randomStringGenerator, submitButton } from "../utils/helpers.js";
 
 export class AddContact {
   constructor(page) {

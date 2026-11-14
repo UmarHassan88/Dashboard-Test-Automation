@@ -1,6 +1,6 @@
 import { test } from "@playwright/test";
-import { LoginPage } from "./pages/LoginPage.js";
-import { CredentialsPage } from "./pages/credentials.js";
+import { LoginPage } from "./../pages/LoginPage.js";
+import { CredentialsPage } from "./../pages/credentials.js";
 
 test.describe("Login Page Validation", () => {
   test("Success Validation", async ({ page }) => {

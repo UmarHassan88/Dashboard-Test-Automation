@@ -1,6 +1,6 @@
 import { test, expect } from "@playwright/test";
-import { LegalDepartmentPage } from "./pages/LegalDepartmentPage";
-import { LoginPage } from "./pages/LoginPage";
+import { LegalDepartmentPage } from "./../pages/LegalDepartmentPage";
+import { LoginPage } from "./../pages/LoginPage";
 test.describe("Legal Department Tests", () => {
   test.beforeEach(async ({ page }) => {
     const loginPage = new LoginPage(page);

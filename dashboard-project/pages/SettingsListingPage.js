@@ -141,7 +141,7 @@ export class SettingsListingPage extends SettingsPage {
       .first();
     await view.click();
     const verifyTitle = this.page.getByRole("dialog").getByText(factTextValue);
-    await expect(verifyTitle).toBeVisible();
+    await expect(verifyTitle).toBeVisible(); 
     console.log("Title is displayed in Preview");
     await this.close.click();
 

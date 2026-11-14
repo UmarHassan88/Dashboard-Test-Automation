@@ -1,5 +1,18 @@
 {
+  "private": true,
+  "workspaces": [
+    "dashboard-project"
+  ],
   "dependencies": {
     "@faker-js/faker": "^10.1.0"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.56.1"
+  },
+  "scripts": {
+    "test": "playwright test",
+    "test:headed": "playwright test --headed",
+    "test:ui": "playwright test --ui",
+    "report": "playwright show-report"
   }
 }

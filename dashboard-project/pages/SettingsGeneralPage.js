@@ -90,7 +90,7 @@ export class SettingsGeneralPage extends SettingsPage {
     console.log("Country is Added!");
 
     // Verifying the Added Country
-    await this.page.waitForTimeout(100);
+    await this.page.waitForTimeout(1000);
     await this.page.reload();
     const verifyCountry = this.page.getByRole("cell", {
       name: countryValueVerify,

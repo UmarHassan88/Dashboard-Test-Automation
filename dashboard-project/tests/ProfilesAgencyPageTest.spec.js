@@ -1,6 +1,6 @@
 import { test, expect } from "@playwright/test";
-import { ProfilesAgencyPage } from "./pages/ProfilesAgencyPage";
-import { LoginPage } from "./pages/LoginPage";
+import { ProfilesAgencyPage } from "./../pages/ProfilesAgencyPage";
+import { LoginPage } from "./../pages/LoginPage";
 
 test.describe("Profiles Agency Tests", () => {
   test.beforeEach(async ({ page }) => {

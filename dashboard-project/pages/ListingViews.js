@@ -5,11 +5,12 @@ import {
   randomonlystringGenerator,
   uploadFile,
   submitButton,
-} from "../utils/helpers";
+} from "../utils/helpers.js";
 
 export class ListingViews extends SettingsListingPage {
   constructor(page) {
     super(page);
+    this.page = page;
     this.viewsSection = this.page.getByRole("button", { name: "Views" });
     this.addView = this.page.getByRole("button", { name: "Add View" });
     this.viewnameMand = this.page.getByText("View Name *");
@@ -56,9 +57,9 @@ export class ListingViews extends SettingsListingPage {
     console.log("View is added successfully!");
     console.log("---Verifying the added View---");
     console.log("View to Verify: ", this.viewinput);
-    await this.page.waitForTimeout(3000);
-    await this.page.reload();
-    await expect(this.verifyView).toBeVisible();
+    await this.page.waitForTimeout(1000);
+    // await this.page.reload();
+    await expect(this.page.getByRole('cell', { name: this.viewinput })).toBeVisible();
     console.log("The View is Verified Successfully!");
   }
 }

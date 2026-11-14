@@ -1,6 +1,6 @@
 import { test, expect } from "@playwright/test";
-import { AqaryIntPage } from "./pages/AqaryIntPage";
-import { LoginPage } from "./pages/LoginPage";
+import { AqaryIntPage } from "./../pages/AqaryIntPage";
+import { LoginPage } from "./../pages/LoginPage";
 
 test.describe("Aqary INT Users Management", () => {
   test.beforeEach(async ({ page }) => {

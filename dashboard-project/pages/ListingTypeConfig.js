@@ -1,6 +1,6 @@
 import { expect } from "@playwright/test";
 import { SettingsPage } from "./SettingsPage";
-import { dropdownSelect, dropdownSelectOnly } from "../utils/helpers";
+import { dropdownSelect, dropdownSelectOnly } from "../utils/helpers.js";
 
 export class ListingTypeConfig extends SettingsPage {
   constructor(page) {

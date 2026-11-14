@@ -5,7 +5,7 @@ import {
   randomIntGenerator,
   randomStringGenerator,
   submitButton,
-} from "../utils/helpers";
+} from "../utils/helpers.js";
 import { expect } from "@playwright/test";
 
 export class AddLead {

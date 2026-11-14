@@ -2,7 +2,7 @@
 export const CredentialsPage = {
   validCredentials: {
     username: "superadmin",
-    password: "HereWeGo@2025",
+    password: "HereWeGo@2026",
   },
   investment: {
     username: "admin@aqaryinvestment.com",

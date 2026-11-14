@@ -1,7 +1,7 @@
 import { test } from "@playwright/test";
-import { LoginPage } from "./pages/LoginPage.js";
-import { ProjectsPage } from "./pages/ProjectPage.js";
-import { CredentialsPage } from "./pages/credentials.js";
+import { LoginPage } from "./../pages/LoginPage.js";
+import { ProjectsPage } from "./../pages/ProjectPage.js";
+import { CredentialsPage } from "./../pages/credentials.js";
 
 test.describe("Projects Section Functional", () => {
   test.beforeEach(async ({ page }) => {

@@ -1,8 +1,8 @@
-import { AddContact } from "../pages/AddContact";
-import { LoginPage } from "../pages/LoginPage";
+import { AddContact } from "../../pages/AddContact";
+import { LoginPage } from "../../pages/LoginPage";
 import { test } from "@playwright/test";
-import { ManageContact } from "../pages/ManageContact";
-import { DeletedContact } from "../pages/DeletedContact";
+import { ManageContact } from "../../pages/ManageContact";
+import { DeletedContact } from "../../pages/DeletedContact";
 
 test.describe("This test couples the tests", () => {
   test.beforeEach(async ({ page }) => {

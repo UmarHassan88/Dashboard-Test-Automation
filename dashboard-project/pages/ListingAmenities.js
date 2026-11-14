@@ -6,7 +6,7 @@ import {
   submitButton,
   tillSettings,
   uploadFile,
-} from "../utils/helpers";
+} from "../utils/helpers.js";
 
 export class ListingAmenities extends SettingsPage {
   constructor(page) {

@@ -1,5 +1,4 @@
 import { expect } from "@playwright/test";
-import { LoginPage } from "./LoginPage.js";
 import { Login, tillSettings } from "../utils/helpers.js";
 
 export class SettingsPage {

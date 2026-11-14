@@ -8,7 +8,7 @@ import {
   randomStringGenerator,
   submitButton,
   uploadFile,
-} from "../utils/helpers";
+} from "../utils/helpers.js";
 import { SettingsPage } from "./SettingsPage";
 
 export class ListingUnitVariation extends SettingsPage {

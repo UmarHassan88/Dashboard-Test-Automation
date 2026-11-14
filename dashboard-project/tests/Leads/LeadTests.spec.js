@@ -1,8 +1,8 @@
 import { test, expect } from "@playwright/test";
-import { AddLead } from "../pages/LeadsAddLead";
-import { LoginPage } from "../pages/LoginPage";
-import { LeadsManageLeads } from "../pages/LeadsManageLeads";
-import { LeadsDeletedLeads } from "../pages/LeadsDeletedLeads";
+import { AddLead } from "../../pages/LeadsAddLead";
+import { LoginPage } from "../../pages/LoginPage";
+import { LeadsManageLeads } from "../../pages/LeadsManageLeads";
+import { LeadsDeletedLeads } from "../../pages/LeadsDeletedLeads";
 
 test.describe("Add Lead Tests", () => {
   test.beforeEach(async ({ page }) => {

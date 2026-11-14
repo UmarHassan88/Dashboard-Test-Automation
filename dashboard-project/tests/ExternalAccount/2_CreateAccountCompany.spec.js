@@ -1,5 +1,5 @@
 import { test } from "@playwright/test";
-import { ExternalAccountPage } from "../pages/ExternalAccountPage.js";
+import { ExternalAccountPage } from "../../pages/ExternalAccountPage.js";
 
 test("Testing the Add Company Account Type Section", async ({ page }) => {
   const externalAccountPage = new ExternalAccountPage(page);
